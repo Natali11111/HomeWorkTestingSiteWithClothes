@@ -35,6 +35,47 @@ public class SingInTests extends BaseTest {
         Assert.assertTrue(errorsList.contains("This country requires you to choose a State."));
     }
 
+    @Test
+    public void authorizationWithEmptyFieldsEmailAndPassword() {
+        BasePage basePage = homePage.clickSingIn();
+        Assert.assertTrue(basePage instanceof SingInPage);
+        SingInPage singInPage = (SingInPage) basePage;
+        basePage = singInPage.clickSingIn();
+        Assert.assertTrue(singInPage.checkForErrorsWhenLoginWithEmptyFields(), "An email address required.");
+    }
+
+    @Test
+    public void authorizationWithAnEmptyEmailField(){
+        BasePage basePage = homePage.clickSingIn();
+        Assert.assertTrue(basePage instanceof SingInPage);
+        SingInPage singInPage = (SingInPage) basePage;
+        singInPage.typePassword("7856h");
+        basePage = singInPage.clickSingIn();
+        Assert.assertTrue(singInPage.checkForErrorWhenSaveAnEmptyEmailField(), "An email address required.");
+    }
+
+    @Test
+    public void authorizationWithAnEmptyPasswordField(){
+        BasePage basePage = homePage.clickSingIn();
+        Assert.assertTrue(basePage instanceof SingInPage);
+        SingInPage singInPage = (SingInPage) basePage;
+        singInPage.typeRegisteredUserEmail("vla0704ivanov@gmail.com");
+        basePage = singInPage.clickSingIn();
+        Assert.assertTrue(singInPage.checkForErrorWhenSaveAnEmptyPasswordField(), "Password is required.");
+    }
+
+    @Test
+    public void authorizationWithInvalidData(){
+        BasePage basePage = homePage.clickSingIn();
+        Assert.assertTrue(basePage instanceof SingInPage);
+        SingInPage singInPage = (SingInPage) basePage;
+        singInPage.typeRegisteredUserEmail("///&%%%+++");
+        singInPage.typePassword(">>>>>>>>>");
+        basePage = singInPage.clickSingIn();
+        Assert.assertTrue(singInPage.checkForErrorsWhenLoginInWithInvalidValues(), "Invalid email address.");
+    }
+
+
     @DataProvider
     public Object[][] accountProvider() {
         return new Object[][]{
